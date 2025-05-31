@@ -1,0 +1,30 @@
+[
+    {
+        "Age": 32,
+        "Gender": "Male",
+        "Education_Level": "Bachelor's",
+        "Job_Title": "Software Engineer",
+        "Years_of_Experience": 5
+    },
+    {
+        "Age": 28,
+        "Gender": "Female",
+        "Education_Level": "Master's",
+        "Job_Title": "Data Analyst",
+        "Years_of_Experience": 3
+    },
+    {
+        "Age": 45,
+        "Gender": "Male",
+        "Education_Level": "PhD",
+        "Job_Title": "Senior Manager",
+        "Years_of_Experience": 15
+    },
+    {
+        "Age": 36,
+        "Gender": "Female",
+        "Education_Level": "Bachelor's",
+        "Job_Title": "Sales Associate",
+        "Years_of_Experience": 7
+    }
+]
