@@ -1,17 +1,12 @@
 from flask import Flask, request, jsonify
-# New code
-from numpy.random import Generator, MT19937
-rng = Generator(MT19937())
 import joblib
 import pandas as pd
 import json
-import numpy as np
 
 app = Flask(__name__)
 
 # Load ML artifacts
-model = joblib.load('salary_model.pkl')
-feature_names = joblib.load('feature_names.joblib')
+pipeline = joblib.load('salary_pipeline.pkl')
 with open('label_mappings.json', 'r') as f:
     label_mappings = json.load(f)
 
@@ -29,20 +24,18 @@ def predict():
         if not all(field in data for field in required_fields):
             return jsonify({"error": "Missing required field(s)"}), 400
         
-        # Create input array
-        input_data = [
-            data['Age'],
-            label_mappings['Gender'][data['Gender']],
-            label_mappings['Education'][data['Education_Level']],
-            label_mappings['Job_Title'][data['Job_Title']],
-            data['Years_of_Experience']
-        ]
+        # Create input dataframe with original column names
+        input_data = {
+            'Age': [data['Age']],
+            'Gender': [data['Gender']],
+            'Education Level': [data['Education_Level']],
+            'Job Title': [data['Job_Title']],
+            'Years of Experience': [data['Years_of_Experience']]
+        }
+        input_df = pd.DataFrame(input_data)
         
-        # Create input dataframe
-        input_df = pd.DataFrame([input_data], columns=feature_names)
-        
-        # Make prediction
-        prediction = model.predict(input_df)[0]
+        # Make prediction using the pipeline
+        prediction = pipeline.predict(input_df)[0]
         
         return jsonify({
             "predicted_salary": round(float(prediction), 2)
